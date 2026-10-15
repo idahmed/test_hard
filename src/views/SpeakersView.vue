@@ -1,32 +1,49 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
-import { playTone } from '@/lib/media'
+import { listDevices, playTone, unlockDeviceLabels } from '@/lib/media'
 
 const busy = ref(false)
-const status = ref('Play a tone in the left, right, or both speakers.')
+const sinkId = ref('')
+const outputs = ref([])
+const status = ref('Choose an output, then play a tone.')
 const error = ref('')
+const canSelect = ref(true)
 
 const seoPoints = [
+  'Pick a speaker or headphone output when your browser allows it.',
   'Verify left and right channels with short test tones.',
-  'Use headphones to hear stereo separation clearly.',
   'No files are uploaded — tones are generated locally.',
 ]
+
+async function refreshOutputs() {
+  await unlockDeviceLabels()
+  outputs.value = await listDevices('audiooutput')
+  const probe = document.createElement('audio')
+  canSelect.value = typeof probe.setSinkId === 'function'
+    || typeof AudioContext.prototype.setSinkId === 'function'
+}
 
 async function play(pan, label) {
   busy.value = true
   error.value = ''
   status.value = `Playing ${label}…`
   try {
-    await playTone({ pan, frequency: pan < 0 ? 380 : pan > 0 ? 520 : 440 })
+    await playTone({
+      pan,
+      sinkId: sinkId.value,
+      frequency: pan < 0 ? 380 : pan > 0 ? 520 : 440,
+    })
     status.value = `Played ${label}.`
   } catch {
-    error.value = 'Could not play audio. Check system sound settings.'
+    error.value = 'Could not play audio. Check output permissions and system sound.'
     status.value = ''
   } finally {
     busy.value = false
   }
 }
+
+onMounted(refreshOutputs)
 </script>
 
 <template>
@@ -37,6 +54,30 @@ async function play(pan, label) {
     </header>
 
     <div class="workspace">
+      <div class="controls controls-top">
+        <label class="field">
+          <span>Output</span>
+          <select v-model="sinkId" :disabled="busy || !canSelect">
+            <option value="">Default</option>
+            <option
+              v-for="item in outputs"
+              :key="item.deviceId"
+              :value="item.deviceId"
+            >
+              {{ item.label || `Output ${item.deviceId.slice(0, 6)}` }}
+            </option>
+          </select>
+        </label>
+        <p v-if="!canSelect" class="status">
+          This browser does not allow choosing an audio output.
+        </p>
+        <div class="actions">
+          <button type="button" class="btn" :disabled="busy" @click="refreshOutputs">
+            Refresh outputs
+          </button>
+        </div>
+      </div>
+
       <div class="speaker-grid">
         <button type="button" class="speaker-btn" :disabled="busy" @click="play(-1, 'left')">
           Left

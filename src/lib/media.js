@@ -8,6 +8,16 @@ export async function listDevices(kind) {
   return devices.filter((item) => item.kind === kind)
 }
 
+/** Unlock device labels (needed in Chromium for outputs). */
+export async function unlockDeviceLabels() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    stopStream(stream)
+  } catch {
+    /* ignore */
+  }
+}
+
 export async function getMicStream(deviceId) {
   const audio = deviceId ? { deviceId: { exact: deviceId } } : true
   return navigator.mediaDevices.getUserMedia({ audio, video: false })
@@ -27,9 +37,16 @@ function ctx() {
   return audioCtx
 }
 
-export async function ensureAudio() {
+export async function ensureAudio(sinkId = '') {
   const ac = ctx()
   if (ac.state === 'suspended') await ac.resume()
+  if (typeof ac.setSinkId === 'function') {
+    try {
+      await ac.setSinkId(sinkId || '')
+    } catch {
+      /* unsupported sink */
+    }
+  }
   return ac
 }
 
@@ -51,23 +68,36 @@ export async function playTone({
   duration = 0.8,
   pan = 0,
   gain = 0.2,
+  sinkId = '',
 } = {}) {
-  const ac = await ensureAudio()
+  const ac = await ensureAudio(sinkId)
   const osc = ac.createOscillator()
   const amp = ac.createGain()
   osc.type = 'sine'
   osc.frequency.value = frequency
 
-  let out = amp
+  let node = amp
   if (typeof ac.createStereoPanner === 'function') {
     const panner = ac.createStereoPanner()
     panner.pan.value = Math.max(-1, Math.min(1, pan))
     amp.connect(panner)
-    out = panner
+    node = panner
   }
 
   osc.connect(amp)
-  out.connect(ac.destination)
+
+  let el
+  const canSetCtxSink = typeof ac.setSinkId === 'function'
+  if (sinkId && !canSetCtxSink) {
+    const dest = ac.createMediaStreamDestination()
+    node.connect(dest)
+    el = new Audio()
+    el.srcObject = dest.stream
+    if (typeof el.setSinkId === 'function') await el.setSinkId(sinkId)
+    await el.play()
+  } else {
+    node.connect(ac.destination)
+  }
 
   const now = ac.currentTime
   amp.gain.setValueAtTime(0, now)
@@ -78,7 +108,13 @@ export async function playTone({
   osc.stop(now + duration + 0.02)
 
   return new Promise((resolve) => {
-    osc.onended = () => resolve()
+    osc.onended = () => {
+      if (el) {
+        el.pause()
+        el.srcObject = null
+      }
+      resolve()
+    }
   })
 }
 
@@ -89,4 +125,18 @@ export function createMicMeter(stream) {
   analyser.fftSize = 1024
   source.connect(analyser)
   return { ac, source, analyser }
+}
+
+export function pickRecorderMime() {
+  const types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4']
+  return types.find((type) => MediaRecorder.isTypeSupported(type)) || ''
+}
+
+export function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  link.click()
+  URL.revokeObjectURL(url)
 }
