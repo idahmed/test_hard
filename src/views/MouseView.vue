@@ -1,6 +1,7 @@
 <script setup>
 import { onUnmounted, ref } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
+import { getTool } from '@/tools'
 
 const pad = ref(null)
 const x = ref(0)
@@ -15,6 +16,9 @@ const seoPoints = [
   'Check left, middle, and right buttons separately.',
   'Works with mice, trackpads, and most pointer devices.',
 ]
+
+const seoFaq = getTool('mouse')?.faq ?? []
+
 
 function onMove(event) {
   const el = pad.value
@@ -98,6 +102,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <SeoBlurb title="Mouse and trackpad test" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Mouse and trackpad test" :points="seoPoints" />
   </section>
 </template>

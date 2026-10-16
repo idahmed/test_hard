@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
 import { listDevices, playTone, unlockDeviceLabels } from '@/lib/media'
+import { getTool } from '@/tools'
 
 const busy = ref(false)
 const sinkId = ref('')
@@ -15,6 +16,9 @@ const seoPoints = [
   'Verify left and right channels with short test tones.',
   'No files are uploaded — tones are generated locally.',
 ]
+
+const seoFaq = getTool('speakers')?.faq ?? []
+
 
 async function refreshOutputs() {
   await unlockDeviceLabels()
@@ -96,6 +100,6 @@ onMounted(refreshOutputs)
       </div>
     </div>
 
-    <SeoBlurb title="Speaker test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Speaker test online" :points="seoPoints" />
   </section>
 </template>

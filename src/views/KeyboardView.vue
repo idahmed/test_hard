@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
+import { getTool } from '@/tools'
 
 const last = ref('')
 const code = ref('')
@@ -12,6 +13,9 @@ const seoPoints = [
   'See the key name, code, and modifier keys.',
   'Useful for laptop keyboards and external USB / Bluetooth boards.',
 ]
+
+const seoFaq = getTool('keyboard')?.faq ?? []
+
 
 function onKey(event) {
   if (event.target.closest('input, select, textarea, button, a')) return
@@ -78,6 +82,6 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
       </div>
     </div>
 
-    <SeoBlurb title="Keyboard test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Keyboard test online" :points="seoPoints" />
   </section>
 </template>

@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
+import { getTool } from '@/tools'
 import {
   createMicMeter,
   downloadBlob,
@@ -28,6 +29,9 @@ const seoPoints = [
   'Record a short local sample, play it back, and download it.',
   'Nothing is uploaded — audio stays in your browser.',
 ]
+
+const seoFaq = getTool('mic')?.faq ?? []
+
 
 let stream
 let meter
@@ -253,6 +257,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <SeoBlurb title="Microphone test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Microphone test online" :points="seoPoints" />
   </section>
 </template>

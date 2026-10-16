@@ -2,6 +2,8 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import HubLinks from '@/components/HubLinks.vue'
+import InfoContent from '@/components/InfoContent.vue'
+import InfoModal from '@/components/InfoModal.vue'
 import { loadTheme, saveTheme } from '@/lib/prefs'
 import { tools } from '@/tools'
 
@@ -10,6 +12,13 @@ const router = useRouter()
 const theme = ref(loadTheme())
 const isDark = computed(() => theme.value === 'dark')
 const activePath = computed(() => route.path)
+const info = ref(null)
+
+const infoTitles = {
+  docs: 'How to Use',
+  terms: 'Terms of Service',
+  privacy: 'Privacy Policy',
+}
 
 watch(theme, (value) => {
   saveTheme(value)
@@ -22,7 +31,16 @@ function toggleTheme() {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }
 
+function openInfo(kind) {
+  info.value = kind
+}
+
+function closeInfo() {
+  info.value = null
+}
+
 function onKeydown(event) {
+  if (info.value) return
   if (route.name === 'keyboard') return
   if (event.metaKey || event.ctrlKey || event.altKey) return
   const tag = document.activeElement?.tagName
@@ -68,7 +86,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
               />
             </svg>
           </button>
-          <h1>{{ route.meta.title || 'Hardware test' }}</h1>
+          <h1>{{ route.meta.heading || route.meta.label || 'Hardware test' }}</h1>
           <HubLinks />
         </header>
 
@@ -86,11 +104,23 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           </button>
         </nav>
 
-        <p class="tips">
-          Shortcuts: 1–5 tests
-        </p>
+        <p class="tips">Shortcuts: 1–5</p>
 
         <RouterView />
+
+        <footer class="footer">
+          <nav class="footer-links">
+            <button type="button" class="footer-link" @click="openInfo('docs')">
+              How to Use
+            </button>
+            <button type="button" class="footer-link" @click="openInfo('terms')">
+              Terms
+            </button>
+            <button type="button" class="footer-link" @click="openInfo('privacy')">
+              Privacy
+            </button>
+          </nav>
+        </footer>
       </main>
 
       <div class="ad ad-banner" aria-label="Advertisement">
@@ -101,5 +131,13 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
     <aside class="ad ad-rail" aria-label="Advertisement">
       <div class="ad-slot ad-slot-rail">Ad</div>
     </aside>
+
+    <InfoModal
+      :open="Boolean(info)"
+      :title="info ? infoTitles[info] : ''"
+      @close="closeInfo"
+    >
+      <InfoContent v-if="info" :kind="info" />
+    </InfoModal>
   </div>
 </template>

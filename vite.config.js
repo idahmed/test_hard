@@ -8,15 +8,18 @@ export default defineConfig({
     vue(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.svg', 'robots.txt', 'sitemap.xml'],
       manifest: {
-        name: 'Hardware test by sessea',
+        name: 'Hardware Test Online by sessea',
         short_name: 'hw test',
-        description: 'Test mic, camera, speakers, keyboard, and mouse in your browser.',
+        description:
+          'Free browser hardware tests for microphone, camera, speakers, keyboard, and mouse.',
         theme_color: '#1c1c1c',
         background_color: '#f3f3f3',
         display: 'standalone',
-        start_url: '/',
+        start_url: '/mic',
+        lang: 'en',
+        categories: ['utilities'],
         icons: [
           {
             src: '/favicon.svg',
@@ -27,7 +30,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,woff,woff2,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,woff,woff2,ico,txt,xml}'],
       },
     }),
   ],

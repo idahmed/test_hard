@@ -124,10 +124,10 @@ select {
   flex: 1;
   display: grid;
   align-content: start;
-  gap: 1rem;
+  gap: 0.75rem;
   width: min(100%, 52rem);
   margin: 0 auto;
-  padding: 0.5rem 0 0.25rem;
+  padding: 0.35rem 0 0.25rem;
 }
 
 .brand {
@@ -138,9 +138,9 @@ select {
 
 .brand h1 {
   margin: 0;
-  font-size: clamp(1.55rem, 4vw, 2.1rem);
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+  font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .hub {
@@ -277,12 +277,15 @@ select {
 .chips {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 0.45rem;
 }
 
 .btn,
 .chip,
 .speaker-btn {
+  display: inline-grid;
+  place-items: center;
   min-height: 2.5rem;
   border: 1px solid var(--line);
   border-radius: 0.7rem;
@@ -294,8 +297,6 @@ select {
 
 .btn,
 .speaker-btn {
-  display: inline-grid;
-  place-items: center;
   padding: 0 1rem;
   font-weight: 700;
 }
@@ -311,6 +312,8 @@ select {
   padding: 0 0.85rem;
   font-family: var(--font-mono);
   font-size: 0.85rem;
+  line-height: 1;
+  text-align: center;
 }
 
 .chip.active {
@@ -490,6 +493,30 @@ select {
   line-height: 1.5;
 }
 
+.seo .faq {
+  margin: 0.75rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+}
+
+.seo .faq dt {
+  margin-top: 0.5rem;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.seo .faq dt:first-child {
+  margin-top: 0;
+}
+
+.seo .faq dd {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
 @media (max-width: 1200px) {
   :root {
     --ad-banner-h: 50px;
@@ -512,6 +539,166 @@ select {
   .page {
     width: 100%;
   }
+}
+
+.footer {
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.footer-link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.footer-link:hover {
+  color: var(--ink);
+}
+
+.modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+.modal-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: min(100%, 34rem);
+  max-height: min(80dvh, 40rem);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.modal-head h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.modal-close {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0;
+  background: var(--key);
+  color: var(--ink);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-body {
+  overflow: auto;
+  padding: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.info-content {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.info-content article {
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.info-content article:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.info-content article.highlight {
+  padding: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.7rem;
+  background: var(--key);
+}
+
+.info-content h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+}
+
+.info-content p,
+.info-content li {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.info-content ol,
+.info-content ul {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.info-content a {
+  color: var(--ink);
+}
+
+.info-content kbd {
+  display: inline-block;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid var(--line);
+  border-radius: 0.3rem;
+  background: var(--key);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+}
+
+.info-date {
+  margin: 0.25rem 0 0;
+  color: var(--soft);
+  font-size: 0.8rem;
+  font-style: italic;
 }
 
 @media (max-width: 760px) {

@@ -2,6 +2,7 @@
 import { onUnmounted, ref, watch } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
 import { getCameraStream, listDevices, stopStream } from '@/lib/media'
+import { getTool } from '@/tools'
 
 const videoEl = ref(null)
 const active = ref(false)
@@ -17,6 +18,9 @@ const seoPoints = [
   'Useful before video calls or recording.',
   'The stream stays local — nothing is uploaded.',
 ]
+
+const seoFaq = getTool('camera')?.faq ?? []
+
 
 let stream
 
@@ -129,6 +133,6 @@ onUnmounted(stop)
       </div>
     </div>
 
-    <SeoBlurb title="Camera test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Camera test online" :points="seoPoints" />
   </section>
 </template>
