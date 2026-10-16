@@ -104,7 +104,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
           </button>
         </nav>
 
-        <p class="tips">Shortcuts: 1–5</p>
+        <p class="tips">1–5 tests</p>
 
         <RouterView />
 

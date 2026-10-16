@@ -124,32 +124,32 @@ select {
   flex: 1;
   display: grid;
   align-content: start;
-  gap: 0.75rem;
+  gap: 0.55rem;
   width: min(100%, 52rem);
   margin: 0 auto;
-  padding: 0.35rem 0 0.25rem;
+  padding: 0.2rem 0 0.15rem;
 }
 
 .brand {
   position: relative;
   text-align: center;
-  padding-inline: 2.8rem;
+  padding-inline: 2.4rem;
 }
 
 .brand h1 {
   margin: 0;
-  font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
 .hub {
   display: inline-block;
-  margin: 0.35rem 0 0;
+  margin: 0.2rem 0 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
 }
@@ -164,8 +164,8 @@ select {
   right: 0;
   display: grid;
   place-items: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 2.15rem;
+  height: 2.15rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0;
@@ -175,8 +175,8 @@ select {
 }
 
 .theme-toggle svg {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1rem;
+  height: 1rem;
 }
 
 .tabs {
@@ -192,14 +192,14 @@ select {
 
 .tab {
   flex: 0 1 auto;
-  min-width: 5.4rem;
-  min-height: 2.25rem;
-  padding: 0 0.7rem;
+  min-width: 4.8rem;
+  min-height: 2.1rem;
+  padding: 0 0.6rem;
   border: 0;
-  border-radius: 0.7rem;
+  border-radius: 0.65rem;
   background: transparent;
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
@@ -215,36 +215,36 @@ select {
 .tips {
   margin: 0;
   color: var(--soft);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   text-align: center;
 }
 
 .tool {
   display: grid;
-  gap: 0.75rem;
-  padding: 0.85rem;
+  gap: 0.65rem;
+  padding: 0.75rem;
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: 0.9rem;
   background: var(--panel);
   box-shadow: var(--shadow);
 }
 
 .tool-head h2 {
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 
 .tool-head p {
-  margin: 0.25rem 0 0;
+  margin: 0.2rem 0 0;
   color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-size: 0.84rem;
+  line-height: 1.35;
 }
 
 .workspace,
 .controls {
   display: grid;
-  gap: 0.85rem;
+  gap: 0.65rem;
 }
 
 .controls {
@@ -270,10 +270,10 @@ select {
 
 .field select {
   width: 100%;
-  min-height: 2.6rem;
-  padding: 0.55rem 0.75rem;
+  min-height: 2.3rem;
+  padding: 0.45rem 0.65rem;
   border: 1px solid var(--line);
-  border-radius: 0.7rem;
+  border-radius: 0.6rem;
   background: var(--panel);
   color: var(--ink);
 }
@@ -291,9 +291,9 @@ select {
 .speaker-btn {
   display: inline-grid;
   place-items: center;
-  min-height: 2.5rem;
+  min-height: 2.2rem;
   border: 1px solid var(--line);
-  border-radius: 0.7rem;
+  border-radius: 0.6rem;
   background: var(--key);
   color: var(--ink);
   cursor: pointer;
@@ -302,7 +302,8 @@ select {
 
 .btn,
 .speaker-btn {
-  padding: 0 1rem;
+  padding: 0 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
 }
 
@@ -314,9 +315,9 @@ select {
 }
 
 .chip {
-  padding: 0 0.85rem;
+  padding: 0 0.7rem;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   line-height: 1;
   text-align: center;
 }
@@ -394,9 +395,9 @@ select {
 .video-frame {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: 0.85rem;
   background: var(--key);
 }
 
@@ -420,23 +421,23 @@ select {
 .speaker-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.45rem;
 }
 
 .speaker-btn {
-  min-height: 5.5rem;
-  font-size: 1.05rem;
+  min-height: 4rem;
+  font-size: 0.95rem;
 }
 
 .focus-box,
 .pointer-pad {
   display: grid;
   place-items: center;
-  gap: 0.35rem;
-  min-height: 10rem;
-  padding: 1.25rem;
+  gap: 0.25rem;
+  min-height: 8rem;
+  padding: 0.9rem;
   border: 1px dashed var(--line);
-  border-radius: 1rem;
+  border-radius: 0.85rem;
   background: var(--key);
   text-align: center;
 }
@@ -452,7 +453,7 @@ select {
 }
 
 .focus-box strong {
-  font-size: 2rem;
+  font-size: 1.6rem;
   letter-spacing: -0.03em;
 }
 
@@ -481,21 +482,21 @@ select {
 }
 
 .seo {
-  padding-top: 0.25rem;
+  padding-top: 0.15rem;
   border-top: 1px solid var(--line);
 }
 
 .seo h3 {
-  margin: 0 0 0.5rem;
-  font-size: 0.95rem;
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
 }
 
 .seo ul {
   margin: 0;
-  padding-left: 1.1rem;
+  padding-left: 1.05rem;
   color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  font-size: 0.84rem;
+  line-height: 1.4;
 }
 
 .seo .faq {
@@ -716,7 +717,7 @@ select {
   }
 
   .tab {
-    min-width: 4.8rem;
-    font-size: 0.68rem;
+    min-width: 4.4rem;
+    font-size: 0.66rem;
   }
 }
