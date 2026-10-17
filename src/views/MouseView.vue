@@ -11,13 +11,12 @@ const scroll = ref(0)
 const clicks = ref(0)
 const inside = ref(false)
 
-const seoPoints = [
-  'Move, click, and scroll inside the pad to test your mouse or trackpad.',
-  'Check left, middle, and right buttons separately.',
-  'Works with mice, trackpads, and most pointer devices.',
-]
-
-const seoFaq = getTool('mouse')?.faq ?? []
+const tool = getTool('mouse')
+const seoPoints = tool?.points ?? []
+const seoFaq = tool?.faq ?? []
+const seoLede = tool?.lede ?? ''
+const seoSteps = tool?.steps ?? []
+const seoNote = tool?.note ?? ''
 
 
 function onMove(event) {
@@ -102,6 +101,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <SeoBlurb :faq="seoFaq" title="Mouse and trackpad test" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Mouse and trackpad test" :lede="seoLede" :points="seoPoints" :steps="seoSteps" :note="seoNote" />
   </section>
 </template>

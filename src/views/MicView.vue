@@ -24,13 +24,12 @@ const status = ref('Click Start to allow microphone access.')
 const sampleUrl = ref('')
 const sampleType = ref('audio/webm')
 
-const seoPoints = [
-  'Check that your microphone is detected and picking up sound.',
-  'Record a short local sample, play it back, and download it.',
-  'Nothing is uploaded — audio stays in your browser.',
-]
-
-const seoFaq = getTool('mic')?.faq ?? []
+const tool = getTool('mic')
+const seoPoints = tool?.points ?? []
+const seoFaq = tool?.faq ?? []
+const seoLede = tool?.lede ?? ''
+const seoSteps = tool?.steps ?? []
+const seoNote = tool?.note ?? ''
 
 
 let stream
@@ -257,6 +256,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <SeoBlurb :faq="seoFaq" title="Microphone test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Microphone test online" :lede="seoLede" :points="seoPoints" :steps="seoSteps" :note="seoNote" />
   </section>
 </template>

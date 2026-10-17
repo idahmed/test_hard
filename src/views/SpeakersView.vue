@@ -11,13 +11,12 @@ const status = ref('Choose an output, then play a tone.')
 const error = ref('')
 const canSelect = ref(true)
 
-const seoPoints = [
-  'Pick a speaker or headphone output when your browser allows it.',
-  'Verify left and right channels with short test tones.',
-  'No files are uploaded — tones are generated locally.',
-]
-
-const seoFaq = getTool('speakers')?.faq ?? []
+const tool = getTool('speakers')
+const seoPoints = tool?.points ?? []
+const seoFaq = tool?.faq ?? []
+const seoLede = tool?.lede ?? ''
+const seoSteps = tool?.steps ?? []
+const seoNote = tool?.note ?? ''
 
 
 async function refreshOutputs() {
@@ -100,6 +99,6 @@ onMounted(refreshOutputs)
       </div>
     </div>
 
-    <SeoBlurb :faq="seoFaq" title="Speaker test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Speaker test online" :lede="seoLede" :points="seoPoints" :steps="seoSteps" :note="seoNote" />
   </section>
 </template>

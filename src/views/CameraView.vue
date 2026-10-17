@@ -13,13 +13,12 @@ const error = ref('')
 const status = ref('Click Start to allow camera access.')
 const info = ref('')
 
-const seoPoints = [
-  'Preview your webcam and switch between front and back cameras when available.',
-  'Useful before video calls or recording.',
-  'The stream stays local — nothing is uploaded.',
-]
-
-const seoFaq = getTool('camera')?.faq ?? []
+const tool = getTool('camera')
+const seoPoints = tool?.points ?? []
+const seoFaq = tool?.faq ?? []
+const seoLede = tool?.lede ?? ''
+const seoSteps = tool?.steps ?? []
+const seoNote = tool?.note ?? ''
 
 
 let stream
@@ -133,6 +132,6 @@ onUnmounted(stop)
       </div>
     </div>
 
-    <SeoBlurb :faq="seoFaq" title="Camera test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Camera test online" :lede="seoLede" :points="seoPoints" :steps="seoSteps" :note="seoNote" />
   </section>
 </template>

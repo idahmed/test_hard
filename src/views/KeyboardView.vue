@@ -8,13 +8,12 @@ const code = ref('')
 const mods = ref('')
 const log = ref([])
 
-const seoPoints = [
-  'Press keys to confirm your keyboard is sending events.',
-  'See the key name, code, and modifier keys.',
-  'Useful for laptop keyboards and external USB / Bluetooth boards.',
-]
-
-const seoFaq = getTool('keyboard')?.faq ?? []
+const tool = getTool('keyboard')
+const seoPoints = tool?.points ?? []
+const seoFaq = tool?.faq ?? []
+const seoLede = tool?.lede ?? ''
+const seoSteps = tool?.steps ?? []
+const seoNote = tool?.note ?? ''
 
 
 function onKey(event) {
@@ -82,6 +81,6 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
       </div>
     </div>
 
-    <SeoBlurb :faq="seoFaq" title="Keyboard test online" :points="seoPoints" />
+    <SeoBlurb :faq="seoFaq" title="Keyboard test online" :lede="seoLede" :points="seoPoints" :steps="seoSteps" :note="seoNote" />
   </section>
 </template>
