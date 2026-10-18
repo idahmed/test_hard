@@ -16,22 +16,30 @@ const seoSteps = tool?.steps ?? []
 const seoNote = tool?.note ?? ''
 
 
+let nextId = 0
+
 function onKey(event) {
-  if (event.target.closest('input, select, textarea, button, a')) return
-  event.preventDefault()
-  last.value = event.key === ' ' ? 'Space' : event.key
-  code.value = event.code
-  mods.value = [
-    event.ctrlKey && 'Ctrl',
-    event.altKey && 'Alt',
-    event.shiftKey && 'Shift',
-    event.metaKey && 'Meta',
-  ].filter(Boolean).join(' · ') || 'none'
+  if (event.target.closest('input, select, textarea')) return
+  // Leave Ctrl/Cmd shortcuts (reload, tabs, …) to the browser.
+  if (!event.ctrlKey && !event.metaKey) event.preventDefault()
+
+  const key = event.key === ' ' ? 'Space' : event.key
+  const down = event.type === 'keydown'
+  if (down) {
+    last.value = key
+    code.value = event.code
+    mods.value = [
+      event.ctrlKey && 'Ctrl',
+      event.altKey && 'Alt',
+      event.shiftKey && 'Shift',
+      event.metaKey && 'Meta',
+    ].filter(Boolean).join(' · ') || 'none'
+  }
 
   log.value = [
     {
-      id: `${Date.now()}-${event.code}`,
-      label: `${last.value} · ${event.code}`,
+      id: nextId++,
+      label: `${down ? '↓' : '↑'} ${key} · ${event.code}`,
     },
     ...log.value,
   ].slice(0, 12)
@@ -44,8 +52,14 @@ function clearLog() {
   mods.value = ''
 }
 
-onMounted(() => window.addEventListener('keydown', onKey))
-onUnmounted(() => window.removeEventListener('keydown', onKey))
+onMounted(() => {
+  window.addEventListener('keydown', onKey)
+  window.addEventListener('keyup', onKey)
+})
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKey)
+  window.removeEventListener('keyup', onKey)
+})
 </script>
 
 <template>
@@ -64,14 +78,9 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 
       <div class="controls">
         <div v-if="log.length" class="log">
-          <button
-            v-for="item in log"
-            :key="item.id"
-            type="button"
-            class="log-item"
-          >
+          <span v-for="item in log" :key="item.id" class="log-item">
             {{ item.label }}
-          </button>
+          </span>
         </div>
         <div class="actions">
           <button type="button" class="btn" :disabled="!log.length" @click="clearLog">

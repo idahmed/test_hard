@@ -28,7 +28,7 @@ const router = createRouter({
       name: 'privacy',
       component: PrivacyView,
       meta: {
-        title: 'Privacy Policy — Hardware test | sessea',
+        title: 'Privacy Policy — Hardware test',
         description:
           'Privacy policy for sessea hardware tests. Mic and camera streams stay in your browser. Ads may use partner cookies.',
         heading: 'Privacy',
@@ -40,7 +40,7 @@ const router = createRouter({
       name: 'terms',
       component: TermsView,
       meta: {
-        title: 'Terms of Service — Hardware test | sessea',
+        title: 'Terms of Service — Hardware test',
         description:
           'Terms of Service for free browser hardware tests on hw.sessea.com by sessea.',
         heading: 'Terms',

@@ -19,12 +19,17 @@ const seoSteps = tool?.steps ?? []
 const seoNote = tool?.note ?? ''
 
 
-async function refreshOutputs() {
-  await unlockDeviceLabels()
+async function loadOutputs() {
   outputs.value = await listDevices('audiooutput')
   const probe = document.createElement('audio')
   canSelect.value = typeof probe.setSinkId === 'function'
     || typeof AudioContext.prototype.setSinkId === 'function'
+}
+
+/** Chromium hides output names until mic permission is granted, so only ask on click. */
+async function refreshOutputs() {
+  if (outputs.value.some((item) => !item.label)) await unlockDeviceLabels()
+  await loadOutputs()
 }
 
 async function play(pan, label) {
@@ -46,7 +51,7 @@ async function play(pan, label) {
   }
 }
 
-onMounted(refreshOutputs)
+onMounted(loadOutputs)
 </script>
 
 <template>

@@ -14,13 +14,7 @@ const theme = ref(loadTheme())
 const isDark = computed(() => theme.value === 'dark')
 const activePath = computed(() => route.path)
 const isLegal = computed(() => Boolean(route.meta.legal))
-const info = ref(null)
-
-const infoTitles = {
-  docs: 'How to Use',
-  terms: 'Terms of Service',
-  privacy: 'Privacy Policy',
-}
+const docsOpen = ref(false)
 
 watch(theme, (value) => {
   saveTheme(value)
@@ -33,16 +27,8 @@ function toggleTheme() {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
 }
 
-function openInfo(kind) {
-  info.value = kind
-}
-
-function closeInfo() {
-  info.value = null
-}
-
 function onKeydown(event) {
-  if (info.value) return
+  if (docsOpen.value) return
   if (route.name === 'keyboard') return
   if (event.metaKey || event.ctrlKey || event.altKey) return
   const tag = document.activeElement?.tagName
@@ -108,7 +94,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
 
         <footer class="footer">
           <nav class="footer-links">
-            <button v-if="!isLegal" type="button" class="footer-link" @click="openInfo('docs')">
+            <button v-if="!isLegal" type="button" class="footer-link" @click="docsOpen = true">
               How to Use
             </button>
             <RouterLink class="footer-link" to="/privacy">Privacy</RouterLink>
@@ -120,12 +106,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
       </main>
     </div>
 
-    <InfoModal
-      :open="Boolean(info)"
-      :title="info ? infoTitles[info] : ''"
-      @close="closeInfo"
-    >
-      <InfoContent v-if="info" :kind="info" />
+    <InfoModal :open="docsOpen" title="How to Use" @close="docsOpen = false">
+      <InfoContent />
     </InfoModal>
   </div>
 </template>

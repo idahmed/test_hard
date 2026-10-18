@@ -13,5 +13,9 @@ export function loadTheme() {
 }
 
 export function saveTheme(value) {
-  localStorage.setItem(THEME_KEY, value)
+  try {
+    localStorage.setItem(THEME_KEY, value)
+  } catch {
+    /* ignore */
+  }
 }

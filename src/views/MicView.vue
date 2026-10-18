@@ -38,6 +38,7 @@ let frame
 let recorder
 let chunks = []
 let recordTimer
+let sampleBlob
 
 function deviceLabel(item, index) {
   if (item.label) return item.label
@@ -68,6 +69,7 @@ async function loadInputs() {
 function revokeSample() {
   if (sampleUrl.value) URL.revokeObjectURL(sampleUrl.value)
   sampleUrl.value = ''
+  sampleBlob = null
 }
 
 function stopRecorder() {
@@ -99,6 +101,7 @@ async function start() {
 function stop() {
   stopRecorder()
   cancelAnimationFrame(frame)
+  meter?.source.disconnect()
   stopStream(stream)
   stream = null
   meter = null
@@ -140,8 +143,8 @@ function startRecord() {
   recorder.onstop = () => {
     if (!chunks.length) return
     revokeSample()
-    const blob = new Blob(chunks, { type: sampleType.value })
-    sampleUrl.value = URL.createObjectURL(blob)
+    sampleBlob = new Blob(chunks, { type: sampleType.value })
+    sampleUrl.value = URL.createObjectURL(sampleBlob)
     status.value = 'Sample ready — play or download it.'
   }
 
@@ -158,11 +161,9 @@ function stopRecord() {
 }
 
 function downloadSample() {
-  if (!sampleUrl.value) return
+  if (!sampleBlob) return
   const ext = sampleType.value.includes('mp4') ? 'm4a' : 'webm'
-  fetch(sampleUrl.value)
-    .then((res) => res.blob())
-    .then((blob) => downloadBlob(blob, `mic-sample.${ext}`))
+  downloadBlob(sampleBlob, `mic-sample.${ext}`)
 }
 
 onMounted(() => {

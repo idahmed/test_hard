@@ -1,5 +1,5 @@
 <script setup>
-import { onUnmounted, ref } from 'vue'
+import { ref } from 'vue'
 import SeoBlurb from '@/components/SeoBlurb.vue'
 import { getTool } from '@/tools'
 
@@ -56,10 +56,6 @@ function reset() {
   scroll.value = 0
   clicks.value = 0
 }
-
-onUnmounted(() => {
-  /* listeners are on the pad element via template */
-})
 </script>
 
 <template>
